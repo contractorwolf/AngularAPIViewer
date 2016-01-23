@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en" ng-app="itemInventoryApp">
+<html lang="en" ng-app="usersApp">
 <head>
   	<meta charset="utf-8">
-  	<title>Items</title>
+  	<title>Get User</title>
 
   	<style type="text/css">
   		.done{text-decoration: line-through;color: #ccc}
@@ -10,21 +10,24 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
 	<script>
-		angular.module('itemInventoryApp',[])
+		var getUserUrl = "https://kkpijiott3.execute-api.us-east-1.amazonaws.com/development/users/";
+
+
+		angular.module('usersApp',[])
 			.config(function($locationProvider) {
 		        $locationProvider.html5Mode(true);
 		    })
-			.controller('itemCtrl',['$scope','$http','$location',function($scope,$http,$location){
-				console.log("booksCtrl initialized");
+			.controller('userCtrl',['$scope','$http','$location',function($scope,$http,$location){
+				console.log("userCtrl initialized");
 
 				var id = $location.search().id; 
 
 				//get data for page
-			  	$http.get("https://kkpijiott3.execute-api.us-east-1.amazonaws.com/development/users/" + id)
+			  	$http.get(getUserUrl + id)
 			    	.success(function(data) {
-			      		$scope.data = data;
+			      		$scope.user = data;
 			      		$scope.jsondata = JSON.stringify(data);    
-			      		console.log("getItem called: success");      
+			      		console.log("getUser() called: success");      
 			    	});
 			}]);
 	</script>
@@ -32,11 +35,11 @@
 </head>
 <body>
 	
-	<div ng-controller="itemCtrl">
+	<div ng-controller="userCtrl">
 
-		<b>id</b>: {{data.id}}<br>
-		<b>username</b>: {{data.username}}<br>
-		<b>type</b>: {{data.userType}}<br>
+		<b>id</b>: {{user.id}}<br>
+		<b>username</b>: {{user.username}}<br>
+		<b>type</b>: {{user.userType}}<br>
 
 		<br>
 		<b>raw</b>: <br>
