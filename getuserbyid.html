@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" ng-app="itemInventoryApp">
+<head>
+  	<meta charset="utf-8">
+  	<title>Items</title>
+
+  	<style type="text/css">
+  		.done{text-decoration: line-through;color: #ccc}
+  	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+	<script>
+		angular.module('itemInventoryApp',[])
+			.config(function($locationProvider) {
+		        $locationProvider.html5Mode(true);
+		    })
+			.controller('itemCtrl',['$scope','$http','$location',function($scope,$http,$location){
+				console.log("booksCtrl initialized");
+
+				var id = $location.search().id; 
+
+				//get data for page
+			  	$http.get("https://kkpijiott3.execute-api.us-east-1.amazonaws.com/development/users/" + id)
+			    	.success(function(data) {
+			      		$scope.data = data;
+			      		$scope.jsondata = JSON.stringify(data);    
+			      		console.log("getItem called: success");      
+			    	});
+			}]);
+	</script>
+
+</head>
+<body>
+	
+	<div ng-controller="itemCtrl">
+
+		<b>id</b>: {{data.id}}<br>
+		<b>username</b>: {{data.username}}<br>
+		<b>type</b>: {{data.userType}}<br>
+
+		<br>
+		<b>raw</b>: <br>
+		<textarea ng-model="jsondata" rows="20" cols="80"></textarea>
+	</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" ng-app="usersApp">
+<head>
+  	<meta charset="utf-8">
+  	<title>Show Users</title>
+
+  	<style type="text/css">
+	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+	<script>
+		var getUsersUrl = "https://kkpijiott3.execute-api.us-east-1.amazonaws.com/development/users";
+
+		angular.module('usersApp',[])
+			.controller('userCtrl',['$scope','$http',function($scope,$http){
+				console.log("userCtrl initialized");
+
+				//get data for page on load
+			  	$http.get(getUsersUrl)
+			    	.success(function(data) {
+			      		$scope.users = data;    
+			      		console.log("getUsers() called: success");      
+			    	});
+
+			    //refresh page data
+				$scope.getUsers = function(){
+					console.log("getUsers() called");
+					$scope.users = "";
+
+				  	$http.get(getUsersUrl)
+				    	.success(function(data) {
+				      		$scope.users = data;    
+				      		console.log("getUsers() called: success");      
+				    	});
+				};  
+
+			}]);
+	</script>
+
+</head>
+<body>
+	show users
+	<div ng-controller="userCtrl">
+		<ul>
+			<li ng-repeat="user in users">
+				<a href="getuserbyid.html?id={{user.id}}">{{user.id}}</a>
+			</li>	
+		</ul>
+
+		<button ng-click="getUsers()">Refresh</button>
+	</div>
+</body>
+</html>
