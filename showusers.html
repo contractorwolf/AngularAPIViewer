@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="usersApp">
+<html lang="en" ng-app="showUsersApp">
 <head>
   	<meta charset="utf-8">
   	<title>Show Users</title>
@@ -11,8 +11,8 @@
 	<script>
 		var getUsersUrl = "https://kkpijiott3.execute-api.us-east-1.amazonaws.com/development/users";
 
-		angular.module('usersApp',[])
-			.controller('userCtrl',['$scope','$http',function($scope,$http){
+		angular.module('showUsersApp',[])
+			.controller('showUsersCtrl',['$scope','$http',function($scope,$http){
 				console.log("userCtrl initialized");
 
 				//get data for page on load
@@ -41,13 +41,13 @@
 <body>
 
 
-	<div ng-controller="userCtrl">
+	<div ng-controller="showUsersCtrl">
 
 <div ng-include="'header.html'"></div>
 
 
 	show users
-		
+
 		<ul>
 			<li ng-repeat="user in users">
 				<a href="getuserbyid.html?id={{user.id}}">{{user.id}}</a>
