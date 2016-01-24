@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" ng-app="usersApp">
+<head>
+  	<meta charset="utf-8">
+  	<title>Create User</title>
+
+  	<style type="text/css">
+  		.done{text-decoration: line-through;color: #ccc}
+  	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+	<script>
+		var postUserUrl = "https://kkpijiott3.execute-api.us-east-1.amazonaws.com/development/users";
+
+
+		angular.module('usersApp',[])
+			.config(function($locationProvider) {
+		        $locationProvider.html5Mode(true);
+		    })
+			.controller('userCtrl',['$scope','$http','$location',function($scope,$http,$location){
+				console.log("userCtrl initialized");
+
+
+				//page object definition
+				$scope.newuser = {};
+				$scope.newuser.username = "";
+				$scope.newuser.userType = "";
+
+
+			    //refresh page data
+				$scope.createUser = function(){
+					console.log("createUser() called");
+					
+					$scope.jsondata = JSON.stringify($scope.newuser);
+
+
+					$http.post(postUserUrl, JSON.stringify($scope.newuser), {headers: {'Content-Type': 'application/json'} })
+						.then(function (response) {
+						    console.log(response);
+						});
+
+
+
+
+
+					/*
+					$scope.users = "";
+
+				  	$http.get(postUsersUrl)
+				    	.success(function(data) {
+				      		$scope.users = data;    
+				      		console.log("createUser() called: success");      
+				    	});
+				    */
+				};  	
+			}]);
+	</script>
+
+</head>
+<body>
+	
+	<div ng-controller="userCtrl">
+
+	<div ng-include="'header.html'"></div>
+	
+    <form>
+        username: <input type="text" name="firstName" ng-model="newuser.username"><br/>
+        userType: <input type="text" name="lastName"  ng-model="newuser.userType"><br/>
+    </form>
+
+	<br>
+	raw page model:<br>
+	<textarea ng-model="jsondata" rows="10" cols="80"></textarea>
+
+		<br>	
+		<button ng-click="createUser()">Create</button>
+	</div>
+</body>
+</html>

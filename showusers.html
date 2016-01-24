@@ -39,8 +39,15 @@
 
 </head>
 <body>
-	show users
+
+
 	<div ng-controller="userCtrl">
+
+<div ng-include="'header.html'"></div>
+
+
+	show users
+		
 		<ul>
 			<li ng-repeat="user in users">
 				<a href="getuserbyid.html?id={{user.id}}">{{user.id}}</a>
